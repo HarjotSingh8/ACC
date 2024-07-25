@@ -39,8 +39,8 @@ public class CSVFile {
                 String price = columns[1].trim();
                 String location = columns[2].trim();
                 String rating = columns[3].trim();
-                String phone = columns[4].trim();
-                hotels.add(new Hotel(name, price, location, rating, phone));
+                String about = columns[4].trim();
+                hotels.add(new Hotel(name, price, location, rating, about, true));
             }
         }
         catch (Exception e) {

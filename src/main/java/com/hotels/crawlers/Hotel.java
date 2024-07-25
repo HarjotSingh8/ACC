@@ -17,7 +17,8 @@ public class Hotel {
         System.out.println("Location: " + hotel.location);
         System.out.println("Price: " + hotel.price);
         System.out.println("Rating: " + hotel.rating);
-        System.out.println("Description: " + hotel.description);
+        if(hotel.description != null)
+            System.out.println("Description: " + hotel.description);
         System.out.println("=============");
     }
     public Hotel(String name, String address, String location, String price, String rating, String description) {
@@ -34,5 +35,23 @@ public class Hotel {
         this.location = location;
         this.rating = rating;
         this.reviewCount = phone;
+    }
+    public Hotel(String name, String price, String location, String rating, String description, boolean b) {
+        this.name = name;
+        this.price = price;
+        this.location = location;
+        this.rating = rating;
+        this.description = description;
+    }
+    public Hotel(String name, String location, String price) {
+        this.name = name;
+        this.price = price;
+        this.location = location;
+    }
+    public Hotel(String name, String location, String price, String rating) {
+        this.name = name;
+        this.price = price;
+        this.location = location;
+        this.rating = rating;
     }
 }

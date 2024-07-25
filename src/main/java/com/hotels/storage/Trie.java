@@ -59,7 +59,7 @@ public class Trie {
             int index = prefix.charAt(i) - 0;
 
             if (currentNode == null || currentNode.childNode[index] == null) {
-                System.out.println("No words found with this prefix");
+                // System.out.println("No words found with this prefix");
                 return new ArrayList<>();
             }
             currentNode = currentNode.childNode[index];

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import java.time.Duration;
 import org.openqa.selenium.WebElement;
@@ -26,25 +27,46 @@ public class Expedia {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         WebElement showMore = driver.findElement(By.cssSelector(".uitk-layout-grid .uitk-layout-grid-item .uitk-layout-flex-justify-content-center .uitk-button"));
         showMore.click();
-
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        for (int i = 0; i < 5; i++) {
+            js.executeScript("window.scrollBy(0, 600);");
+            // explicit wait for 1 sec
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         WebElement hotelList = driver.findElement(By.cssSelector("[data-stid='property-listing-results']"));
         List<WebElement> hotels_crawl = hotelList.findElements(By.className("uitk-card"));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        int count = 0;
         for (WebElement hotel : hotels_crawl) {
-            WebElement hotelCard = hotel.findElement(By.className("uitk-card-content-section"));
-            // hotel name is an h3 element
-            WebElement hotelName = hotelCard.findElement(By.tagName("h3"));
-            // System.out.println("Property Name: " + hotelName.getText());
+            try {
+                count++;
+                if (count > 20) {
+                    break;
+                }
+                js.executeScript("window.scrollBy(0, 350);");
+                // driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
-            // hotel location is hotelCard -> div[0] -> div[0] -> div[1]
-            WebElement tlocation = hotelCard.findElement(By.cssSelector("div:nth-child(1) div:nth-child(1) div:nth-child(1) div:nth-child(2)"));
-            // System.out.println("Location: " + tlocation.getText());
-            // hotel price = data-test-id="price-summary-message-line"
-            WebElement price = hotelCard.findElement(By.cssSelector("[data-test-id='price-summary-message-line']"));
-            // System.out.println(price.getText());
-            // System.out.println("-------------------------------------------------");
-            // hotel_strings.add(hotelName.getText() + " " + tlocation.getText() + " " + price.getText());
-            hotels.add(new Hotel(hotelName.getText(), "Address", tlocation.getText(), price.getText(), "Rating", "Description"));
+                WebElement hotelCard = hotel.findElement(By.className("uitk-card-content-section"));
+                // hotel name is an h3 element
+                WebElement hotelName = hotelCard.findElement(By.tagName("h3"));
+                // System.out.println("Property Name: " + hotelName.getText());
+
+                // hotel location is hotelCard -> div[0] -> div[0] -> div[1]
+                WebElement tlocation = hotelCard.findElement(By.cssSelector("div:nth-child(1) div:nth-child(1) div:nth-child(1) div:nth-child(2)"));
+                // System.out.println("Location: " + tlocation.getText());
+                // hotel price = data-test-id="price-summary-message-line"
+                WebElement price = hotelCard.findElement(By.cssSelector("[data-test-id='price-summary-message-line']"));
+                // System.out.println(price.getText());
+                // System.out.println("-------------------------------------------------");
+                // hotel_strings.add(hotelName.getText() + " " + tlocation.getText() + " " + price.getText());
+                hotels.add(new Hotel(hotelName.getText(), tlocation.getText(), price.getText()));
+            } catch (Exception e) {
+                // e.printStackTrace();
+            }
         }
         driver.quit();
         return hotels;

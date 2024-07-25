@@ -1,4 +1,4 @@
-package assignment_3;
+package com.hotels.utils;
 
 import java.io.*;
 import java.util.*;

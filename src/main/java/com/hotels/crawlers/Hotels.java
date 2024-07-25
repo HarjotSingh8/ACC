@@ -59,7 +59,7 @@ public class Hotels {
                 if (hotel_count > 10) {
                     break;
                 }
-                System.out.println("test");
+                // System.out.println("test");
                 js.executeScript("window.scrollBy(0, 350);");
                 String hotelName = "";
                 try {
@@ -108,7 +108,7 @@ public class Hotels {
                 } catch (Exception e) {
                     // Handle the exception or log it
                 }
-                hotels.add(new Hotel(hotelName, "Address", location_temp, price, rating, "Description"));
+                hotels.add(new Hotel(hotelName, price, location_temp, rating));
                 js.executeScript("window.scrollBy(0, 250);");
             }
         } catch (Exception e) {
